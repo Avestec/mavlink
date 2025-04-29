@@ -1,0 +1,393 @@
+<?xml version="1.0"?>
+<mavlink>
+  <include>common.xml</include>
+  <version>3</version>
+  <enums>
+    <enum name="MAV_CMD">
+      <entry value="40000" name="MAV_CMD_POI" hasLocation="false" isDestination="false">
+        <description>Save point of interest</description>
+        <param index="1" label="id" minValue="1" maxValue="255" increment="1">Target camera ID. 7 to 255: MAVLink camera component id. 1 to 6 for cameras that don't have a distinct component id (such as autopilot-attached cameras). 0: all cameras. This is used to specifically target autopilot-connected cameras or individual sensors in a multi-sensor MAVLink camera. It is also used to target specific cameras when the MAV_CMD is used in a mission</param>
+        <param index="2" label="criticality color" enum="CRITICALITY">COLOR</param>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40001" name="MAV_CMD_SWITCH_WINDOW" hasLocation="false" isDestination="false">
+        <description>Save point of interest</description>
+        <param index="1" label="Olympus" enum="ACTION"> Olypus sensor</param>
+        <param index="2" label="Sony" enum="ACTION">sony</param>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40002" name="MAV_CMD_OPERATION_FINISH" hasLocation="false" isDestination="false">
+        <description>finish operation</description>
+        <param index="1" reserved="true" default="NaN"/>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40003" name="MAV_CMD_SensePos" hasLocation="false" isDestination="false">
+        <description>Probe control</description>
+        <param index="1" label="x_offset" minValue="1" maxValue="255" increment="1"> Delta Arm X Offset</param>
+        <param index="2" label="y_offset" minValue="1" maxValue="255" increment="1"> Delta Arm Y Offset</param>
+        <param index="3" label="Probe" enum="ACTION">Probe in/out</param>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40004" name="MAV_CMD_LED" hasLocation="false" isDestination="false">
+        <description>LED control</description>
+        <param index="1" label="percentage" minValue="1" maxValue="100" increment="1"> LED intensity percentage</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40005" name="MAV_CMD_Brush" hasLocation="false" isDestination="false">
+        <description>Brush control</description>
+        <param index="1" reserved="true" default="NaN"/>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40006" name="MAV_CMD_Pump" hasLocation="false" isDestination="false">
+        <description>Pump control</description>
+        <param index="1" reserved="true" default="NaN"/>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40007" name="MAV_CMD_Laser" hasLocation="false" isDestination="false">
+        <description>Laser control</description>
+        <param index="1" label="laser" enum="ACTION">Laser on/off</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40008" name="MAV_CMD_ZCAL" hasLocation="false" isDestination="false">
+        <description>Arm Z extension control</description>
+        <param index="1" label="zcal" minValue="1" maxValue="255" increment="1"> Delta Arm Z Offset</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40009" name="MAV_CMD_ATTACHMENT" hasLocation="false" isDestination="false">
+        <description>Attachment mode</description>
+        <param index="1" label="attachment" enum="ATTACHMENT_MODE">Stablize modes</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40010" name="MAV_CMD_SAVE_MAP" hasLocation="false" isDestination="false">
+        <description>save map</description>
+        <param index="1" label="attachment" enum="ACTION">save map enum</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40011" name="MAV_CMD_STORAGE_CLEANUP" hasLocation="false" isDestination="false">
+        <description>cleaning up the OBC storage</description>
+        <param index="1" label="cleanup" enum="ACTION">bag files cleanup</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40012" name="MAV_CMD_SLAM_RESTART" hasLocation="false" isDestination="false">
+        <description>restart the SLAM</description>
+        <param index="1" label="kill_slam" enum="ACTION">kill slam</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40013" name="MAV_CMD_BScan" hasLocation="false" isDestination="false">
+        <description>Start/ Stop Automatic Bscan</description>
+        <param index="1" label="Bscan" enum="ACTION">Start / Stop</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40014" name="MAV_CMD_Surface" hasLocation="false" isDestination="false">
+        <description>Select target pipe surface</description>
+        <param index="1" label="surface" enum="SURFACE_SELECT">Diameter of Pipe</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40015" name="MAV_CMD_MAGNET" hasLocation="false" isDestination="false">
+        <description>Magnet mode</description>
+        <param index="1" label="magnet" enum="ACTION">magnet modes</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40016" name="MAV_CMD_OlYMPUS_39DL" hasLocation="false" isDestination="false">
+        <description>Olympus 39 DL Commands</description>
+        <param index="1" label="New approach" enum="ACTION">New approach enable/disable</param>
+        <param index="2" label="Dec value" minValue="1" maxValue="255" increment="1"> Dec value for keys</param>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40017" name="MAV_CMD_OlYMPUS_POWER" hasLocation="false" isDestination="false">
+        <description>Olympus On/Off Status</description>
+        <param index="1" label="power" enum="ACTION">power on/off</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40018" name="MAV_CMD_START_FLIGHT" hasLocation="false" isDestination="false">
+        <description>START FLIGHT WITH RELOCALIZATION</description>
+        <param index="1" label="Flight" enum="ACTION">Flgiht start/finish</param>
+        <param index="2" label="Relocalization" enum="ACTION">Relocalization enable/disable</param>
+        <param index="3" label="Sensitivity" minValue="1" maxValue="255" increment="1"> Sensitivity</param>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+    </enum>
+    <enum name="PROGRAM_STATE">
+      <description>States of the state machine.</description>
+      <entry value="0" name="PROGRAM_STATE_UNKNOWN"/>
+      <entry value="1" name="PROGRAM_STATE_NOT_STARTED"/>
+      <entry value="2" name="PROGRAM_STATE_STARTING"/>
+      <entry value="3" name="PROGRAM_STATE_ACTIVE"/>
+      <entry value="4" name="PROGRAM_STATE_FAILED"/>
+      <entry value="5" name="PROGRAM_STATE_COMPLETE"/>
+    </enum>
+    <enum name="ACTION">
+      <description> enable/disable action.</description>
+      <entry value="0" name="ACTION_DISABLE"/>
+      <entry value="1" name="ACTION_ENABLE"/>
+    </enum>
+    <enum name="CRITICALITY">
+      <description> enable/disable action.</description>
+      <entry value="0" name="CRITICALITY_RED"/>
+      <entry value="1" name="CRITICALITY_YELLOW"/>
+      <entry value="2" name="CRITICALITY_GREEN"/>
+    </enum>
+    <enum name="ARM">
+      <description> Current Arm attached</description>
+      <entry value="0" name="ARM_UNKNOWN"/>
+      <entry value="1" name="SPARM"/>
+      <entry value="2" name="DELTA_ARM"/>
+      <entry value="3" name="SURFACE_PREP"/>
+      <entry value="4" name="LONG_ARM"/>
+      <entry value="5" name="GIMBAL"/>
+      <entry value="6" name="DEPLOYMENT"/>
+    </enum>
+    <enum name="VEHICLE">
+      <description> Current Arm attached</description>
+      <entry value="0" name="VEHICLE_UNKNOWN"/>
+      <entry value="1" name="SN"/>
+      <entry value="2" name="SB"/>
+      <entry value="3" name="UT_CL"/>
+      <entry value="4" name="EMAT_CL"/>
+      <entry value="5" name="PA_CL"/>
+    </enum>
+    <enum name="SURFACE_SELECT">
+      <description> Current pipe surface selected</description>
+      <entry value="0" name="FLAT"/>
+      <entry value="1" name="TEN"/>
+      <entry value="2" name="TWELVE"/>
+      <entry value="3" name="TWENTYFOUR"/>
+      <entry value="4" name="THIRTY"/>
+    </enum>
+    <enum name="ATTACHMENT_MODE">
+      <description> Attachment mode</description>
+      <entry value="0" name="DETACHED">
+        <description>POSITION HOLD FLIGH MODE</description>
+      </entry>
+      <entry value="1" name="ATTACHED">
+        <description>STABILIZE FLIGHT MODE</description>
+      </entry>
+      <entry value="2" name="PARTIALLY_ATTACHED">
+        <description>POSITION HOLD FLIGH MODE - RESETTING I-TERM</description>
+      </entry>
+    </enum>
+    <enum name="GAS_TYPE">
+      <description> Current Gas Type</description>
+      <entry value="0" name="NO_GAS"/>
+      <entry value="1" name="HYDROGEN"/>
+      <entry value="2" name="HYDROGEN_MIXTURE"/>
+      <entry value="3" name="METHANE"/>
+      <entry value="4" name="LIGHT_GAS"/>
+      <entry value="5" name="MEDIUM_GAS"/>
+      <entry value="6" name="HEAVY_GAS"/>
+      <entry value="253" name="UNKNOWN_GAS"/>
+      <entry value="254" name="UNDER_RANGE"/>
+      <entry value="255" name="OVER_RANGE"/>
+    </enum>
+  </enums>
+  <messages>
+    <message id="3333" name="Sensor_Status">
+      <description>Reading of all sensors on SKYRON: arm, voltage, front distance, Props, DCM Surface and Canopy temperature</description>
+      <field type="uint8_t" name="arm" enum="ARM">uint8_t</field>
+      <field type="uint8_t[2]" name="voltage">uint8_t_array</field>
+      <field type="uint8_t[2]" name="front_distance">uint8_t_array</field>
+      <field type="uint8_t[3]" name="DCM_temp">uint8_t_array</field>
+      <field type="uint8_t[3]" name="Surface_temp">uint8_t_array</field>
+      <field type="uint8_t[3]" name="Canopy_temp">uint8_t_array</field>
+      <field type="uint8_t[3]" name="Prop1_temp">uint8_t_array</field>
+      <field type="uint8_t[3]" name="Prop2_temp">uint8_t_array</field>
+      <field type="uint8_t" name="vehicle" enum="VEHICLE">uint8_t</field>
+    </message>
+    <message id="3334" name="Olympus_Reading">
+      <description>Measurement result from Olympus</description>
+      <field type="uint8_t[3]" name="data">uint8_t_array</field>
+    </message>
+    <message id="3335" name="MT_Gimbal">
+      <description>Control commands to Gimbal</description>
+      <field type="uint8_t[3]" name="data">uint8_t_array</field>
+    </message>
+    <message id="3336" name="Encoder_Count">
+      <description>Encoder pulse count</description>
+      <field type="int32_t" name="Encoder_count">int</field>
+    </message>
+    <message id="3337" name="UT_Thickness">
+      <description>UT sensor thickness reading</description>
+      <field type="float" name="UT_Thickness">float</field>
+    </message>
+    <message id="3338" name="UT_Waveform">
+      <description>Waveform from Tritex sensor</description>
+      <field type="uint8_t" name="Order">uint8_t</field>
+      <field type="uint8_t[250]" name="UT_Waveform">uint8_t_array</field>
+    </message>
+    <message id="3339" name="UT_Speed">
+      <description>update sensor speed of sound</description>
+      <field type="uint16_t" name="Speed">uint16_t</field>
+    </message>
+    <message id="3340" name="Fusion_data">
+      <description>Crawler rotatory and moving distance data for sensor fusion</description>
+      <field type="float" name="distance">float</field>
+      <field type="float" name="rotatory">float</field>
+    </message>
+    <message id="3341" name="MT_OG">
+      <description>Olympus control command</description>
+      <field type="uint8_t[3]" name="data">uint8_t_array</field>
+    </message>
+    <message id="3342" name="Gas_data">
+      <description>Data from Gas sensor</description>
+      <field type="float" name="concentration">float</field>
+      <field type="uint32_t" name="Gas_ID" enum="GAS_TYPE" invalid="253">Gas type reported by the sensor</field>
+      <field type="float" name="temperature">float</field>
+      <field type="float" name="pressure">float</field>
+      <field type="float" name="rel_hum">float</field>
+      <field type="float" name="abs_hum">float</field>
+    </message>
+    <message id="3347" name="ONBOARD_COMPUTER_NUC">
+      <description>Message from onboard computer.</description>
+      <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+      <field type="uint8_t" name="ROScore_state" enum="PROGRAM_STATE" invalid="0">program state machine state. PROGRAM_STATE_UNKNOWN if state reporting not supported.</field>
+      <field type="uint8_t" name="SLAM_state" enum="PROGRAM_STATE" invalid="0">program state machine state. PROGRAM_STATE_UNKNOWN if state reporting not supported.</field>
+      <field type="uint8_t" name="MAVROS_state" enum="PROGRAM_STATE" invalid="0">program state machine state. PROGRAM_STATE_UNKNOWN if state reporting not supported.</field>
+      <field type="uint8_t" name="converter_state" enum="PROGRAM_STATE" invalid="0">program state machine state. PROGRAM_STATE_UNKNOWN if state reporting not supported.</field>
+      <field type="uint8_t" name="recording_state" enum="PROGRAM_STATE" invalid="0">program state machine state. PROGRAM_STATE_UNKNOWN if state reporting not supported.</field>
+    </message>
+    <message id="3348" name="OPERATION_LAUNCH">
+      <description>Status text message. These messages are printed in yellow in the COMM console of QGroundControl. WARNING: They consume quite some bandwidth, so use only for important status and error messages. If implemented wisely, these messages are buffered on the MCU and sent only at a limited rate (e.g. 10 Hz).</description>
+      <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+      <field type="uint8_t" name="target_system">System ID</field>
+      <field type="uint8_t" name="target_component">Component ID</field>
+      <field type="char[50]" name="project_name">project_name text message, without null termination character</field>
+      <field type="char[50]" name="asset_name">asset_name text message, without null termination character</field>
+      <field type="char[50]" name="inspection_name">inspection_name text message, without null termination character</field>
+      <field type="uint8_t" name="relocalization" enum="ACTION">Status of relocalization</field>
+    </message>
+    <message id="3349" name="MESSAGE_ACK">
+      <description>Report status of a message. Includes feedback whether the message was executed. The message microservice is documented at https://mavlink.io/en/services/message.html</description>
+      <field type="uint16_t" name="message">Acknowledged message.</field>
+      <field type="uint8_t" name="result" enum="MAV_RESULT">Result of message.</field>
+      <extensions/>
+      <field type="uint8_t" name="progress">Also used as result_param1, it can be set with a enum containing the errors reasons of why the message was denied or the progress percentage or 255 if unknown the progress when result is MAV_RESULT_IN_PROGRESS.</field>
+      <field type="int32_t" name="result_param2">Additional parameter of the result, example: which parameter of MAV_CMD_NAV_WAYPOINT caused it to be denied.</field>
+      <field type="uint8_t" name="target_system">System which requested the message to be executed</field>
+      <field type="uint8_t" name="target_component">Component which requested the message to be executed</field>
+    </message>
+    <message id="3350" name="ONBOARD_COMPUTER_HEALTH_STATUS">
+      <description>OBC health telemetry.</description>
+      <field type="uint32_t" name="time_boot_ms" units="ms">Timestamp (time since system boot).</field>
+      <field type="float" name="storage_total_capacity" units="GB">Total capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
+      <field type="float" name="storage_used_capacity" units="GB">Used capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
+      <field type="float" name="storage_available_capacity" units="GB">Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
+      <field type="float" name="memory_percent" units="percent">Used capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
+      <field type="float" name="cpu_percent" units="percent">Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
+      <field type="float" name="temperature" units="degree">Available storage capacity. If storage is not ready (STORAGE_STATUS_READY) value will be ignored.</field>
+      <field type="char[32]" name="computer_name">Textual storage name to be used in UI (microSD 1, Internal Memory, etc.) This is a NULL terminated string. If it is exactly 32 characters long, add a terminating NULL. If this string is empty, the generic type is shown to the user.</field>
+    </message>
+    <message id="3351" name="SLAM_POSITION_ESTIMATE">
+      <description>SLAM position/attitude estimate from a vision source.</description>
+      <field type="uint64_t" name="usec" units="us">Timestamp (UNIX time or time since system boot)</field>
+      <field type="float" name="x" units="m">SLAM X position</field>
+      <field type="float" name="y" units="m">SLAM Y position</field>
+      <field type="float" name="z" units="m">SLAM Z position</field>
+      <field type="float" name="q1">Quaternion component 1, w (1 in null-rotation)</field>
+      <field type="float" name="q2">Quaternion component 2, x (0 in null-rotation)</field>
+      <field type="float" name="q3">Quaternion component 3, y (0 in null-rotation)</field>
+      <field type="float" name="q4">Quaternion component 4, z (0 in null-rotation)</field>
+    </message>
+    <message id="3352" name="ACTUATOR_POSITION">
+      <description>Current actuator position and target actuator position</description>
+      <field type="uint8_t" name="Target">uint8_t</field>
+      <field type="uint8_t" name="Actual">uint8_t</field>
+    </message>
+    <message id="3353" name="AVESAID_STATUS">
+      <description>Custom flight status for AvesAID.</description>
+      <field type="uint64_t" name="timestamp">Time since system start (microseconds).</field>
+      <field type="uint8_t" name="flag_mode_attachment_enabled">Attachment mode enabled.</field>
+      <field type="uint8_t" name="flag_mode_partial_attachment_enabled">Partial attachment mode enabled.</field>
+      <field type="uint8_t" name="flag_magnet_enabled">Magnet enabled.</field>
+      <field type="uint8_t" name="flag_height_source_baro_enabled">Barometer used as height source.</field>
+      <field type="uint8_t" name="flag_height_source_slam_enabled">SLAM used as height source.</field>
+    </message>
+  </messages>
+</mavlink>
