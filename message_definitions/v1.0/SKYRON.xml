@@ -194,6 +194,26 @@
         <param index="6" reserved="true" default="NaN"/>
         <param index="7" reserved="true" default="NaN"/>
       </entry>
+      <entry value="40019" name="MAV_CMD_PAYLOAD_STATUS" hasLocation="false" isDestination="false">
+        <description>Status of the carrying payload</description>
+        <param index="1" label="Payload" enum="ACTION">Deployed/Retrieved</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40020" name="MAV_CMD_FIRMWARE_UPDATE" hasLocation="false" isDestination="false">
+        <description>Initiate firmware update command</description>
+        <param index="1" label="Target" enum="TARGET_DEVICE">Board that need update</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
     </enum>
     <enum name="PROGRAM_STATE">
       <description>States of the state machine.</description>
@@ -267,6 +287,14 @@
       <entry value="254" name="UNDER_RANGE"/>
       <entry value="255" name="OVER_RANGE"/>
     </enum>
+    <enum name="TARGET_DEVICE">
+      <description> Current Arm attached</description>
+      <entry value="0" name="Driverboard"/>
+      <entry value="1" name="Controlboard"/>
+      <entry value="2" name="Crawlerboard"/>
+      <entry value="3" name="Tetherboard"/>
+      <entry value="4" name="OnboardComputer"/>
+    </enum>
   </enums>
   <messages>
     <message id="3333" name="Sensor_Status">
@@ -287,7 +315,8 @@
     </message>
     <message id="3335" name="MT_Gimbal">
       <description>Control commands to Gimbal</description>
-      <field type="uint8_t[3]" name="data">uint8_t_array</field>
+      <field type="float" name="Movement">float</field>
+      <field type="uint8_t" name="Home">uint8_t</field>
     </message>
     <message id="3336" name="Encoder_Count">
       <description>Encoder pulse count</description>
@@ -301,6 +330,7 @@
       <description>Waveform from Tritex sensor</description>
       <field type="uint8_t" name="Order">uint8_t</field>
       <field type="uint8_t[250]" name="UT_Waveform">uint8_t_array</field>
+      <field type="uint8_t" name="Version">uint8_t</field>
     </message>
     <message id="3339" name="UT_Speed">
       <description>update sensor speed of sound</description>
@@ -388,6 +418,54 @@
       <field type="uint8_t" name="flag_magnet_enabled">Magnet enabled.</field>
       <field type="uint8_t" name="flag_height_source_baro_enabled">Barometer used as height source.</field>
       <field type="uint8_t" name="flag_height_source_slam_enabled">SLAM used as height source.</field>
+      <field type="uint8_t" name="flag_payload_enabled">payload status.</field>
+    </message>
+    <message id="3354" name="Test_JIG">
+      <description>For test jig testing</description>
+      <field type="char[50]" name="Target">word buffer</field>
+    </message>
+    <message id="3355" name="TEST_JIG_GENERAL_INFO">
+      <description>For test jig readings</description>
+      <field type="uint8_t" name="Arm_Type" enum="ARM">Auto arm detection</field>
+      <field type="uint8_t[4]" name="Limit_Switch_Status">shared Limit Switch Status for brush, probe, 2 Magnets</field>
+      <field type="uint16_t" name="Actuator_Position">actuator position</field>
+      <field type="uint8_t[3]" name="SPARM_Temp">SPARM temp</field>
+      <field type="uint8_t[2]" name="SPARM_LiDAR">SPARM LiDAR</field>
+    </message>
+    <message id="3356" name="TEST_JIG_ACTION_REQ">
+      <description>For test jig request specific actions</description>
+      <field type="uint8_t" name="General_Request">see script for specfics</field>
+    </message>
+    <message id="3357" name="TEST_JIG_ARM_INFO">
+      <description>request Arm type</description>
+      <field type="uint8_t" name="Arm_Type" enum="ARM">Auto arm detection</field>
+    </message>
+    <message id="3358" name="Firmware_Hex">
+      <description>Firmware Hex file transfer</description>
+      <field type="uint32_t" name="Address">Start address of data</field>
+      <field type="uint8_t" name="Length">Total length of data</field>
+      <field type="uint8_t[240]" name="Data">Data to be written</field>
+    </message>
+    <message id="3359" name="Firmware_CS">
+      <description>Firmware checksum transfer</description>
+      <field type="uint8_t" name="Checksum">Checksum of data</field>
+    </message>
+    <message id="3360" name="Firmware_Version">
+      <description>Firmware Version</description>
+      <field type="uint8_t" name="target_device" enum="TARGET_DEVICE">uint8_t</field>
+      <field type="uint16_t" name="Version">Version of firmware</field>
+    </message>
+    <message id="3361" name="TEST_JIG_MODE">
+      <description>Configure whether in test jig mode or not</description>
+      <field type="uint8_t" name="TEST_JIG_MODE" enum="ACTION">0 for normal mode, 1 for debug (test jig) mode</field>
+    </message>
+    <message id="3362" name="CRAWLER_HEADING">
+      <description>line detection offset from center on the bottom</description>
+      <field type="float" name="CRAWLER_HEADING">positive on the right</field>
+    </message>
+    <message id="3363" name="CRAWLER_INFO">
+      <description>line detection offset from center on the bottom</description>
+      <field type="char[50]" name="CRAWLER_INFO">general purpose buffer</field>
     </message>
   </messages>
 </mavlink>
