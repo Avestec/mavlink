@@ -214,6 +214,16 @@
         <param index="6" reserved="true" default="NaN"/>
         <param index="7" reserved="true" default="NaN"/>
       </entry>
+      <entry value="40021" name="MAV_CMD_Rotatory_Cal" hasLocation="false" isDestination="false">
+        <description>Rotatory Servo Calibration Command</description>
+        <param index="1" label="Cal_State" enum="ACTION">Start and finish calibration process</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
     </enum>
     <enum name="PROGRAM_STATE">
       <description>States of the state machine.</description>
@@ -246,7 +256,7 @@
       <entry value="6" name="DEPLOYMENT"/>
     </enum>
     <enum name="VEHICLE">
-      <description> Current Arm attached</description>
+      <description> Current Vehicle type</description>
       <entry value="0" name="VEHICLE_UNKNOWN"/>
       <entry value="1" name="SN"/>
       <entry value="2" name="SB"/>
@@ -294,6 +304,17 @@
       <entry value="2" name="Crawlerboard"/>
       <entry value="3" name="Tetherboard"/>
       <entry value="4" name="OnboardComputer"/>
+      <entry value="5" name="DELTA_ARM_Board"/>
+      <entry value="6" name="SPARM_ARM_Board"/>
+      <entry value="7" name="SURFACE_PREP_Board"/>
+      <entry value="8" name="LONG_ARM_Board"/>
+      <entry value="9" name="GIMBAL_Board"/>
+      <entry value="10" name="DEPLOYMENT_ARM_Board"/>
+      <entry value="11" name="SN_Board"/>
+      <entry value="12" name="SB_Board"/>
+      <entry value="13" name="UT_CL_Board"/>
+      <entry value="14" name="EMAT_CL_Board"/>
+      <entry value="15" name="PA_CL_Board"/>
     </enum>
   </enums>
   <messages>
@@ -453,7 +474,9 @@
     <message id="3360" name="Firmware_Version">
       <description>Firmware Version</description>
       <field type="uint8_t" name="target_device" enum="TARGET_DEVICE">uint8_t</field>
-      <field type="uint16_t" name="Version">Version of firmware</field>
+      <field type="uint16_t" name="MAJOR">MAJOR Version of firmware</field>
+      <field type="uint16_t" name="MINOR">MINOR Version of firmware</field>
+      <field type="uint16_t" name="PATCH">PATCH Version of firmware</field>
     </message>
     <message id="3361" name="TEST_JIG_MODE">
       <description>Configure whether in test jig mode or not</description>
