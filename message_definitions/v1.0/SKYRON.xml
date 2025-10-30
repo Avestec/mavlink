@@ -254,6 +254,16 @@
         <param index="6" reserved="true" default="NaN"/>
         <param index="7" reserved="true" default="NaN"/>
       </entry>
+      <entry value="40025" name="MAV_CMD_BRUSH_AUTO" hasLocation="false" isDestination="false">
+        <description>Brush Automatic Control Command</description>
+        <param index="1" label="BRUSH" enum="ACTION">Brush start/finish</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
     </enum>
     <enum name="PROGRAM_STATE">
       <description>States of the state machine.</description>
