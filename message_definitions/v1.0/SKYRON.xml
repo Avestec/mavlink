@@ -224,6 +224,36 @@
         <param index="6" reserved="true" default="NaN"/>
         <param index="7" reserved="true" default="NaN"/>
       </entry>
+      <entry value="40022" name="MAV_CMD_BRUSH_SPEED" hasLocation="false" isDestination="false">
+        <description>Brush Manual Control Command</description>
+        <param index="1" label="TPS" minValue="0" maxValue="255" increment="1"> Brush motor speed in turns/second</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40023" name="MAV_CMD_BRUSH_ACTUATE" hasLocation="false" isDestination="false">
+        <description>Surface Prep Actuator Manual Control Command</description>
+        <param index="1" label="DIRECTION" enum="DIRECTION">Direction of movement</param>
+        <param index="2" label="DISTANCE" minValue="1" maxValue="10" increment="1"> Distance to move in mm</param>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40024" name="MAV_CMD_BRUSH_ROTATE" hasLocation="false" isDestination="false">
+        <description>Surface Prep Rotatory Manual Control Command</description>
+        <param index="1" label="DEGREES" minValue="0" maxValue="8" increment="1"> Step to rotate, each step is in 45 degrees</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
     </enum>
     <enum name="PROGRAM_STATE">
       <description>States of the state machine.</description>
@@ -271,6 +301,12 @@
       <entry value="2" name="TWELVE"/>
       <entry value="3" name="TWENTYFOUR"/>
       <entry value="4" name="THIRTY"/>
+    </enum>
+    <enum name="DIRECTION">
+      <description> Direction of movement</description>
+      <entry value="0" name="FORWARD"/>
+      <entry value="1" name="REVERSE"/>
+      <entry value="2" name="STOP"/>
     </enum>
     <enum name="ATTACHMENT_MODE">
       <description> Attachment mode</description>
@@ -509,6 +545,10 @@
       <field type="uint32_t" name="total_memory">Total system memory in MB</field>
       <field type="uint32_t" name="total_storage">Total system storage in MB</field>
       <field type="uint32_t" name="uptime">System uptime in seconds</field>
+    </message>
+    <message id="3365" name="BRUSH_SPEED">
+      <description>Surface prep brush speed</description>
+      <field type="int32_t" name="TPS">Surface prep brush speed in turns per second.</field>
     </message>
   </messages>
 </mavlink>
