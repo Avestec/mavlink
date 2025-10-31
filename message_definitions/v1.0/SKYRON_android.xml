@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<mavlink>
+  <include>common.xml</include>
+  <include>SKYRON.xml</include>
+  <include>development.xml</include>
+  <include>ardupilotmega.xml</include>
+  <version>3</version>
+  <enums></enums>
+  <messages></messages>
+</mavlink>
