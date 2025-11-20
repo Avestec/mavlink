@@ -264,6 +264,16 @@
         <param index="6" reserved="true" default="NaN"/>
         <param index="7" reserved="true" default="NaN"/>
       </entry>
+      <entry value="40026" name="MAV_CMD_FLIGHT_TUNE" hasLocation="false" isDestination="false">
+        <description>Switch MC tuning parameters based on payload type</description>
+        <param index="1" label="PAYLOAD_TYPE" enum="ARM">Payload type attached (LONG_ARM=4 for alternate tune, others use primary)</param>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
     </enum>
     <enum name="PROGRAM_STATE">
       <description>States of the state machine.</description>
@@ -480,6 +490,8 @@
     <message id="3353" name="AVESAID_STATUS">
       <description>Custom flight status for AvesAID.</description>
       <field type="uint64_t" name="timestamp">Time since system start (microseconds).</field>
+      <field type="uint8_t" name="vehicle_type" enum="VEHICLE">Current vehicle type.</field>
+      <field type="uint8_t" name="arm_type" enum="ARM">Current arm/payload type attached.</field>
       <field type="uint8_t" name="flag_mode_attachment_enabled">Attachment mode enabled.</field>
       <field type="uint8_t" name="flag_mode_partial_attachment_enabled">Partial attachment mode enabled.</field>
       <field type="uint8_t" name="flag_magnet_enabled">Magnet enabled.</field>
