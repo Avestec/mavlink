@@ -1,0 +1,51 @@
+name: Require PR Review
+
+# This workflow adds a required status check ("pr-review-gate") that is
+# satisfied only when a pull request has at least one approving review.
+#
+# To enforce it:
+#   1. Enable this workflow.
+#   2. Go to Settings → Branches → Add rule for "master".
+#   3. Enable "Require status checks to pass before merging" and add
+#      "pr-review-gate" to the required list.
+#   4. Enable "Require a pull request before merging" with at least 1
+#      required approving review.
+#   5. Enable "Require review from Code Owners" (uses .github/CODEOWNERS).
+#   6. Enable "Restrict who can push to matching branches" to prevent
+#      direct pushes to master.
+
+on:
+  pull_request:
+    branches:
+      - master
+  pull_request_review:
+
+permissions:
+  pull-requests: read
+  statuses: write
+
+jobs:
+  pr-review-gate:
+    name: pr-review-gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for approving review
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: reviews } = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.payload.pull_request
+                ? context.payload.pull_request.number
+                : context.payload.review.pull_request.number,
+            });
+
+            const approved = reviews.some(r => r.state === 'APPROVED');
+            if (!approved) {
+              core.setFailed(
+                'This pull request requires at least one approving review before it can be merged.'
+              );
+            } else {
+              core.info('Pull request has an approving review. ✓');
+            }
