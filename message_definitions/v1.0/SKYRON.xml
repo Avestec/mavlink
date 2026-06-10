@@ -314,6 +314,16 @@
         <param index="6" reserved="true" default="NaN"/>
         <param index="7" reserved="true" default="NaN"/>
       </entry>
+      <entry value="40031" name="MAV_CMD_PA_CAM_POS" hasLocation="false" isDestination="false">
+        <description>Phased Array Camare postion control</description>
+        <param index="1" label="ENABLE" enum="ACTION">Camera module enable.</param>
+        <param index="2" label="DIRECTION" enum="DIRECTION">Camera moving direction.</param>
+        <param index="3" label="DISTANCE" minValue="0" maxValue="10" increment="1">Distance to move.</param>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
     </enum>
     <enum name="PROGRAM_STATE">
       <description>States of the state machine.</description>
