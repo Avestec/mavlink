@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <mavlink>
-  <include>common.xml</include>
+  <include>all.xml</include>
   <version>3</version>
   <enums>
     <enum name="MAV_CMD">
@@ -8,26 +8,6 @@
         <description>Save point of interest</description>
         <param index="1" label="id" minValue="1" maxValue="255" increment="1">Target camera ID. 7 to 255: MAVLink camera component id. 1 to 6 for cameras that don't have a distinct component id (such as autopilot-attached cameras). 0: all cameras. This is used to specifically target autopilot-connected cameras or individual sensors in a multi-sensor MAVLink camera. It is also used to target specific cameras when the MAV_CMD is used in a mission</param>
         <param index="2" label="criticality color" enum="CRITICALITY">COLOR</param>
-        <param index="3" reserved="true" default="NaN"/>
-        <param index="4" reserved="true" default="NaN"/>
-        <param index="5" reserved="true" default="NaN"/>
-        <param index="6" reserved="true" default="NaN"/>
-        <param index="7" reserved="true" default="NaN"/>
-      </entry>
-      <entry value="40001" name="MAV_CMD_SWITCH_WINDOW" hasLocation="false" isDestination="false">
-        <description>Save point of interest</description>
-        <param index="1" label="Olympus" enum="ACTION"> Olypus sensor</param>
-        <param index="2" label="Sony" enum="ACTION">sony</param>
-        <param index="3" reserved="true" default="NaN"/>
-        <param index="4" reserved="true" default="NaN"/>
-        <param index="5" reserved="true" default="NaN"/>
-        <param index="6" reserved="true" default="NaN"/>
-        <param index="7" reserved="true" default="NaN"/>
-      </entry>
-      <entry value="40002" name="MAV_CMD_OPERATION_FINISH" hasLocation="false" isDestination="false">
-        <description>finish operation</description>
-        <param index="1" reserved="true" default="NaN"/>
-        <param index="2" reserved="true" default="NaN"/>
         <param index="3" reserved="true" default="NaN"/>
         <param index="4" reserved="true" default="NaN"/>
         <param index="5" reserved="true" default="NaN"/>
@@ -319,6 +299,27 @@
         <param index="1" label="ENABLE" enum="ACTION">Camera module enable.</param>
         <param index="2" label="DIRECTION" enum="DIRECTION">Camera moving direction.</param>
         <param index="3" label="DISTANCE" minValue="0" maxValue="10" increment="1">Distance to move.</param>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <!-- 40001 is now 40032 and 40002 is now 40033 -->
+      <entry value="40032" name="MAV_CMD_SWITCH_WINDOW" hasLocation="false" isDestination="false">
+        <description>Save point of interest</description>
+        <param index="1" label="Olympus" enum="ACTION"> Olypus sensor</param>
+        <param index="2" label="Sony" enum="ACTION">sony</param>
+        <param index="3" reserved="true" default="NaN"/>
+        <param index="4" reserved="true" default="NaN"/>
+        <param index="5" reserved="true" default="NaN"/>
+        <param index="6" reserved="true" default="NaN"/>
+        <param index="7" reserved="true" default="NaN"/>
+      </entry>
+      <entry value="40033" name="MAV_CMD_OPERATION_FINISH" hasLocation="false" isDestination="false">
+        <description>finish operation</description>
+        <param index="1" reserved="true" default="NaN"/>
+        <param index="2" reserved="true" default="NaN"/>
+        <param index="3" reserved="true" default="NaN"/>
         <param index="4" reserved="true" default="NaN"/>
         <param index="5" reserved="true" default="NaN"/>
         <param index="6" reserved="true" default="NaN"/>
