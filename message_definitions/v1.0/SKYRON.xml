@@ -324,8 +324,8 @@
         <param index="6" reserved="true" default="NaN"/>
         <param index="7" reserved="true" default="NaN"/>
       </entry>
-      <entry value="40032" name="MAV_CMD_ENERGY_SAVING_MODE" hasLocation="false" isDestination="false">
-        <description>Rover energy-saving mode: LiDAR to standby, Jetson to minimum power mode, recording and SLAM stopped. MAVLink comms and video streaming remain active. Param 1: ACTION_ENABLE=enter energy-saving mode, ACTION_DISABLE=restore full power.</description>
+      <entry value="40032" name="MAV_CMD_POWER_SAVING_MODE" hasLocation="false" isDestination="false">
+        <description>Rover power-saving mode: LiDAR to standby, Jetson to minimum power mode, recording and SLAM stopped. MAVLink comms and video streaming remain active. Param 1: ACTION_ENABLE=enter power-saving mode, ACTION_DISABLE=restore full power.</description>
         <param index="1" label="MODE" enum="ACTION">ACTION_ENABLE=enter, ACTION_DISABLE=exit.</param>
         <param index="2" reserved="true" default="NaN"/>
         <param index="3" reserved="true" default="NaN"/>
@@ -699,7 +699,7 @@
       <field type="uint8_t" name="collision_avoidance_state" enum="MAV_STATE">Collision avoidance module health. MAV_STATE_UNINIT=not started, MAV_STATE_ACTIVE=running, MAV_STATE_CRITICAL=degraded.</field>
       <field type="uint8_t" name="collision_detection_state" enum="MAV_STATE">Collision detection / perception pipeline health. MAV_STATE_UNINIT=not started, MAV_STATE_ACTIVE=running, MAV_STATE_CRITICAL=degraded.</field>
       <field type="uint8_t" name="navigation_state" enum="MAV_STATE">Path planning / navigation stack health. MAV_STATE_UNINIT=not started, MAV_STATE_ACTIVE=running, MAV_STATE_CRITICAL=degraded, MAV_STATE_EMERGENCY=crashed.</field>
-      <field type="uint8_t" name="energy_saving_state" enum="MAV_STATE">Rover energy-saving mode status. MAV_STATE_ACTIVE=normal full-power operation, MAV_STATE_STANDBY=energy-saving mode engaged (LiDAR standby, minimum Jetson power, recording/SLAM stopped).</field>
+      <field type="uint8_t" name="power_saving_state" enum="MAV_STATE">Rover power-saving mode status. MAV_STATE_ACTIVE=normal full-power operation, MAV_STATE_STANDBY=power-saving mode engaged (LiDAR standby, minimum Jetson power, recording/SLAM stopped).</field>
     </message>
     <message id="3369" name="TWOD_LIDAR">
       <description>2D LIDAR sensor readings.</description>
