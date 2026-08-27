@@ -8,7 +8,7 @@
         <description>Save point of interest</description>
         <param index="1" label="id" minValue="1" maxValue="255" increment="1">Target camera ID. 7 to 255: MAVLink camera component id. 1 to 6 for cameras that don't have a distinct component id (such as autopilot-attached cameras). 0: all cameras. This is used to specifically target autopilot-connected cameras or individual sensors in a multi-sensor MAVLink camera. It is also used to target specific cameras when the MAV_CMD is used in a mission</param>
         <param index="2" label="criticality color" enum="CRITICALITY">COLOR</param>
-        <param index="3" reserved="true" default="NaN"/>
+        <param index="3" label="capture type" enum="CAPTURE_TYPE">Capture event type saved on event.jsonl for OBC; IMG_CAPTURE, START_REC or STOP_REC</param>
         <param index="4" reserved="true" default="NaN"/>
         <param index="5" reserved="true" default="NaN"/>
         <param index="6" reserved="true" default="NaN"/>
@@ -444,6 +444,18 @@
       </entry>
       <entry value="8" name="ONBOARD_POSE_ESTIMATION_SOURCE_VPS">
         <description>Bit 3: Vision Positioning System — downward-facing camera hovering aid.</description>
+      </entry>
+    </enum>
+    <enum name="CAPTURE_TYPE">
+      <description>Type of capture triggered from the ground control station action; either image capture, start recording or stop recording.</description>
+      <entry value="0" name="CAPTURE_TYPE_IMG_CAPTURE">
+        <description>Single still image capture.</description>
+      </entry>
+      <entry value="1" name="CAPTURE_TYPE_START_REC">
+        <description>Start video recording.</description>
+      </entry>
+      <entry value="2" name="CAPTURE_TYPE_STOP_REC">
+        <description>Stop video recording.</description>
       </entry>
     </enum>
   </enums>
