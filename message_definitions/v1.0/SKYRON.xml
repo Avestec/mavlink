@@ -464,9 +464,9 @@
       <entry value="5" name="ONBOARD_MODULE_PRIMARY_CAMERA"><description>Primary payload camera.</description></entry>
       <entry value="6" name="ONBOARD_MODULE_VIDEO_STREAM"><description>Video streaming service.</description></entry>
       <entry value="7" name="ONBOARD_MODULE_RECORDING"><description>Data recording service.</description></entry>
-      <entry value="8" name="ONBOARD_MODULE_LIDAR_HW"><description>LiDAR hardware: reachable, and the sensor's own status (e.g. Ouster HTTP API).</description></entry>
+      <entry value="8" name="ONBOARD_MODULE_LIDAR_HW"><description>LiDAR hardware: reachable, and the sensor's own status (e.g. Ouster HTTP API). BOOT while starting or waking, STANDBY when put in standby, EMERGENCY when unreachable, in error, or booting too long. Diagnostic: tells which part of a LIDAR_SLAM error failed.</description></entry>
       <entry value="9" name="ONBOARD_MODULE_STEREO_CAMERA_HW"><description>Stereo camera hardware.</description></entry>
-      <entry value="10" name="ONBOARD_MODULE_LIDAR_SLAM"><description>LiDAR SLAM pose source.</description></entry>
+      <entry value="10" name="ONBOARD_MODULE_LIDAR_SLAM"><description>LiDAR SLAM pose source. The one LiDAR state to show the pilot: SLAM combined with LIDAR_HW and LIDAR_DRIVER. ACTIVE=running, CRITICAL=degraded, CALIBRATING=starting, STANDBY=ready to start, BOOT=LiDAR starting, POWEROFF=LiDAR in standby, EMERGENCY=SLAM error (the cause is in LIDAR_HW, LIDAR_DRIVER and STATUSTEXT).</description></entry>
       <entry value="11" name="ONBOARD_MODULE_VISUAL_SLAM"><description>Camera-based SLAM pose source.</description></entry>
       <entry value="12" name="ONBOARD_MODULE_VIO"><description>Visual-inertial odometry pose source.</description></entry>
       <entry value="13" name="ONBOARD_MODULE_VPS"><description>Vision positioning system pose source.</description></entry>
@@ -474,7 +474,7 @@
       <entry value="15" name="ONBOARD_MODULE_COLLISION_DETECTION"><description>Collision detection / perception.</description></entry>
       <entry value="16" name="ONBOARD_MODULE_NAVIGATION"><description>Path planning / navigation.</description></entry>
       <entry value="17" name="ONBOARD_MODULE_POWER_SAVING"><description>Power-saving mode (ACTIVE = full power, STANDBY = power saving engaged).</description></entry>
-      <entry value="18" name="ONBOARD_MODULE_LIDAR_DRIVER"><description>LiDAR driver (e.g. ouster_ros) running and publishing data.</description></entry>
+      <entry value="18" name="ONBOARD_MODULE_LIDAR_DRIVER"><description>LiDAR driver (e.g. ouster_ros) publishing data: ACTIVE while clouds arrive with advancing timestamps, EMERGENCY once they stop, UNINIT before the first. Diagnostic: no data while the LiDAR hardware is not running is expected.</description></entry>
     </enum>
   </enums>
   <messages>
@@ -730,7 +730,7 @@
       <description>Health of one onboard computer module. Sent by the OBC once per second for each module the robot has, so the GCS learns which modules exist from what it receives; a module not heard from for 3 s should be shown as stale. Adding or renaming a module only changes the ONBOARD_MODULE enum, never this message. Supersedes ONBOARD_POSE_ESTIMATION_STATUS and ONBOARD_COMPUTER_MODULES_STATUS.</description>
       <field type="uint64_t" name="timestamp" units="us">Timestamp (UNIX time or time since system boot).</field>
       <field type="uint16_t" name="module_id" enum="ONBOARD_MODULE">Module this status is for.</field>
-      <field type="uint8_t" name="state" enum="MAV_STATE">Module health: UNINIT=not started, BOOT/CALIBRATING=starting, STANDBY=ready but idle, ACTIVE=healthy and in use, CRITICAL=degraded, EMERGENCY=failed. For alternatives such as pose sources, STANDBY marks a healthy one that is not in use.</field>
+      <field type="uint8_t" name="state" enum="MAV_STATE">Module health: UNINIT=not started, BOOT/CALIBRATING=starting, STANDBY=ready but idle, ACTIVE=healthy and in use, CRITICAL=degraded, EMERGENCY=failed, POWEROFF=put in standby on purpose. For alternatives such as pose sources, STANDBY marks a healthy one that is not in use.</field>
     </message>
   </messages>
 </mavlink>
