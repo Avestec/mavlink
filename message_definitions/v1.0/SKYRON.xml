@@ -456,6 +456,27 @@
         <description>Bit 3: Vision Positioning System — downward-facing camera hovering aid.</description>
       </entry>
     </enum>
+    <enum name="ONBOARD_MODULE">
+      <description>Onboard computer module (software service, link, hardware or pose source) reported in ONBOARD_MODULE_STATUS.module_id. Values are permanent: add new modules at the end, rename freely (enum names are not part of the message CRC), never reuse a retired value.</description>
+      <entry value="1" name="ONBOARD_MODULE_ROS"><description>ROS master / middleware core.</description></entry>
+      <entry value="2" name="ONBOARD_MODULE_AUTOPILOT_LINK"><description>Link to the autopilot (flight controller).</description></entry>
+      <entry value="3" name="ONBOARD_MODULE_GCS_LINK"><description>Link to the GCS.</description></entry>
+      <entry value="4" name="ONBOARD_MODULE_FIRMWARE_LINK"><description>Serial link to the driver board / firmware.</description></entry>
+      <entry value="5" name="ONBOARD_MODULE_PRIMARY_CAMERA"><description>Primary payload camera.</description></entry>
+      <entry value="6" name="ONBOARD_MODULE_VIDEO_STREAM"><description>Video streaming service.</description></entry>
+      <entry value="7" name="ONBOARD_MODULE_RECORDING"><description>Data recording service.</description></entry>
+      <entry value="8" name="ONBOARD_MODULE_LIDAR_HW"><description>LiDAR hardware, from the sensor's own status (e.g. Ouster HTTP API). BOOT=powering up or waking, STANDBY=put in standby, ACTIVE=running, CRITICAL=unknown status, EMERGENCY=unreachable after running, sensor error, or booting too long.</description></entry>
+      <entry value="9" name="ONBOARD_MODULE_STEREO_CAMERA_HW"><description>Stereo camera hardware.</description></entry>
+      <entry value="10" name="ONBOARD_MODULE_LIDAR_SLAM"><description>LiDAR SLAM pose source; SLAM only (the LiDAR is LIDAR_HW and LIDAR_DRIVER). UNINIT=not started, BOOT=starting (from START_FLIGHT accepted until SLAM runs), ACTIVE=running, CRITICAL=degraded, EMERGENCY=failed (crashed, did not start, or lost its LiDAR data). START_FLIGHT is accepted when this is UNINIT (start) or EMERGENCY (restart) and LIDAR_HW and LIDAR_DRIVER are both ACTIVE; otherwise it is rejected with the reason in STATUSTEXT.</description></entry>
+      <entry value="11" name="ONBOARD_MODULE_VISUAL_SLAM"><description>Camera-based SLAM pose source.</description></entry>
+      <entry value="12" name="ONBOARD_MODULE_VIO"><description>Visual-inertial odometry pose source.</description></entry>
+      <entry value="13" name="ONBOARD_MODULE_VPS"><description>Vision positioning system pose source.</description></entry>
+      <entry value="14" name="ONBOARD_MODULE_COLLISION_AVOIDANCE"><description>Collision avoidance.</description></entry>
+      <entry value="15" name="ONBOARD_MODULE_COLLISION_DETECTION"><description>Collision detection / perception.</description></entry>
+      <entry value="16" name="ONBOARD_MODULE_NAVIGATION"><description>Path planning / navigation.</description></entry>
+      <entry value="17" name="ONBOARD_MODULE_POWER_SAVING"><description>Power-saving mode (ACTIVE = full power, STANDBY = power saving engaged).</description></entry>
+      <entry value="18" name="ONBOARD_MODULE_LIDAR_DRIVER"><description>LiDAR driver (e.g. ouster_ros). UNINIT=not started (no data yet), STANDBY=waiting (no data because the sensor is not running), ACTIVE=running, EMERGENCY=stopped while the sensor runs.</description></entry>
+    </enum>
   </enums>
   <messages>
     <message id="3333" name="Sensor_Status">
@@ -705,6 +726,12 @@
     <message id="3369" name="TWOD_LIDAR">
       <description>2D LIDAR sensor readings.</description>
       <field type="uint8_t[128]" name="distance_buffer">Array of distance measurements[8 by 16] from the 2D LIDAR sensor. Unit in mm</field>
+    </message>
+    <message id="3370" name="ONBOARD_MODULE_STATUS">
+      <description>Health of one onboard computer module. Sent by the OBC for a module as soon as its state changes, and for every module once per second, so a lost message is repaired within a second. A GCS can request every module at once with MAV_CMD_REQUEST_MESSAGE (param1 = 3370), e.g. when it connects. A module not heard from for 3 s should be shown as stale. The GCS learns which modules exist from what it receives. Adding or renaming a module only changes the ONBOARD_MODULE enum, never this message. Supersedes ONBOARD_POSE_ESTIMATION_STATUS and ONBOARD_COMPUTER_MODULES_STATUS.</description>
+      <field type="uint64_t" name="timestamp" units="us">Timestamp (UNIX time or time since system boot).</field>
+      <field type="uint16_t" name="module_id" enum="ONBOARD_MODULE">Module this status is for.</field>
+      <field type="uint8_t" name="state" enum="MAV_STATE">Module state: each module reports only the states it has, each as the closest MAV_STATE (see the ONBOARD_MODULE entry; one-word labels in AvesCORE docs/SKYRON/ONBOARD_MODULE_STATUS.md). LED by state, same for every module: UNINIT grey, BOOT blinking green, STANDBY grey, ACTIVE green, CRITICAL yellow, EMERGENCY red.</field>
     </message>
   </messages>
 </mavlink>
