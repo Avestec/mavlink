@@ -2,7 +2,7 @@ name: Generate MAVLink C headers
 
 on:
   push:
-    branches: [refactored-xml]
+    branches: [master]
     paths:
       - 'message_definitions/**'
       - 'pymavlink'
