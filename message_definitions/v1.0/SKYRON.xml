@@ -384,6 +384,7 @@
       <entry value="7" name="VEHICLE_SA_EMAT"/>
       <entry value="8" name="VEHICLE_SA_PA"/>
       <entry value="9" name="VEHICLE_ROVER"/>
+      <entry value="10" name="VEHICLE_SK_RAM"/>
     </enum>
     <enum name="SURFACE_SELECT">
       <description> Current pipe surface selected</description>
