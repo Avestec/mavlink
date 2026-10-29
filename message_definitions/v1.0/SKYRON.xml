@@ -478,6 +478,47 @@
       <entry value="17" name="ONBOARD_MODULE_POWER_SAVING"><description>Power-saving mode (ACTIVE = full power, STANDBY = power saving engaged).</description></entry>
       <entry value="18" name="ONBOARD_MODULE_LIDAR_DRIVER"><description>LiDAR driver (e.g. ouster_ros). UNINIT=not started (no data yet), STANDBY=waiting (no data because the sensor is not running), ACTIVE=running, EMERGENCY=stopped while the sensor runs.</description></entry>
     </enum>
+    <enum name="FIRMWARE_MCU">
+      <description>MCU of a board running the unified bootloader. Values match enum mcu_e in UnifiedBootloader/common/Inc/headers.h (firmware repo).</description>
+      <entry value="0" name="FIRMWARE_MCU_UNKNOWN"><description>Unknown, or no valid unit record.</description></entry>
+      <entry value="1" name="FIRMWARE_MCU_F429"><description>STM32F429.</description></entry>
+      <entry value="2" name="FIRMWARE_MCU_F446"><description>STM32F446.</description></entry>
+    </enum>
+    <enum name="FIRMWARE_STATE">
+      <description>What an MCU on the unified bootloader is running, and why it stays in the bootloader. Reported in FIRMWARE_IDENTITY.state.</description>
+      <entry value="0" name="FIRMWARE_STATE_APP"><description>Application running.</description></entry>
+      <entry value="1" name="FIRMWARE_STATE_BL_REQUESTED"><description>In bootloader: update requested by the application.</description></entry>
+      <entry value="2" name="FIRMWARE_STATE_BL_NO_APP"><description>In bootloader: no application, or an application without an app_header (1.x app).</description></entry>
+      <entry value="3" name="FIRMWARE_STATE_BL_APP_CRC_MISMATCH"><description>In bootloader: application CRC mismatch, e.g. after an interrupted update.</description></entry>
+      <entry value="4" name="FIRMWARE_STATE_BL_HW_MISMATCH"><description>In bootloader: application built for another board, MCU, PCB revision or variant than the unit record.</description></entry>
+      <entry value="5" name="FIRMWARE_STATE_BL_MAJOR_MISMATCH"><description>In bootloader: application major version differs from the bootloader major version.</description></entry>
+    </enum>
+    <enum name="FIRMWARE_UPDATE_COMMAND">
+      <description>Action requested by FIRMWARE_UPDATE_CMD.</description>
+      <entry value="0" name="FIRMWARE_UPDATE_COMMAND_BEGIN"><description>Start an update with the image described by the other fields. A running application resets into the bootloader instead (FIRMWARE_UPDATE_RESULT_REBOOTING_TO_BL); send it again once FIRMWARE_IDENTITY reports FIRMWARE_STATE_BL_REQUESTED. A new BEGIN restarts the session.</description></entry>
+      <entry value="1" name="FIRMWARE_UPDATE_COMMAND_ENTER_BL"><description>Reset into the bootloader without starting an update (FIRMWARE_UPDATE_RESULT_REBOOTING_TO_BL). The bootloader boots the installed application again after 30 s without an accepted BEGIN. Image fields are ignored.</description></entry>
+      <entry value="2" name="FIRMWARE_UPDATE_COMMAND_BOOT"><description>Leave the bootloader and boot the installed application if it passes the boot checks (FIRMWARE_UPDATE_RESULT_BOOTING); otherwise reply with the reason and stay. Ends any update session. Image fields are ignored.</description></entry>
+    </enum>
+    <enum name="FIRMWARE_UPDATE_RESULT">
+      <description>Result of a firmware update step on the unified bootloader (2.x). Reported in FIRMWARE_UPDATE_STATUS.result. Values below 16 are progress; 16 and above are errors that end the update session.</description>
+      <entry value="0" name="FIRMWARE_UPDATE_RESULT_READY"><description>Ready for FIRMWARE_DATA at next_offset. Sent after the erase, after each chunk, and in reply to a chunk at any other offset (which is not written).</description></entry>
+      <entry value="1" name="FIRMWARE_UPDATE_RESULT_ERASING"><description>Erasing the sectors covered by image_size; progress in percent. Sent about once per second until READY.</description></entry>
+      <entry value="2" name="FIRMWARE_UPDATE_RESULT_COMPLETE"><description>Whole image written and verified; the MCU resets into the new application, which then sends FIRMWARE_IDENTITY.</description></entry>
+      <entry value="3" name="FIRMWARE_UPDATE_RESULT_REBOOTING_TO_BL"><description>Sent by an application to BEGIN or ENTER_BL: it resets into the bootloader, which then sends FIRMWARE_IDENTITY with FIRMWARE_STATE_BL_REQUESTED.</description></entry>
+      <entry value="4" name="FIRMWARE_UPDATE_RESULT_BOOTING"><description>Leaving the bootloader: the installed application passed the boot checks and the MCU resets into it. Sent in reply to BOOT, and unprompted when the 30 s timeout expires.</description></entry>
+      <entry value="5" name="FIRMWARE_UPDATE_RESULT_APP_RUNNING"><description>Sent by an application to BOOT: already running, nothing done.</description></entry>
+      <entry value="6" name="FIRMWARE_UPDATE_RESULT_IN_BOOTLOADER"><description>Sent by the bootloader to ENTER_BL: already in the bootloader; restarts the 30 s timeout when it applies.</description></entry>
+      <entry value="16" name="FIRMWARE_UPDATE_RESULT_HW_MISMATCH"><description>Image (BEGIN) or installed application (BOOT) built for another board, PCB revision or variant than the unit record. Nothing was erased.</description></entry>
+      <entry value="17" name="FIRMWARE_UPDATE_RESULT_MAJOR_MISMATCH"><description>Image (BEGIN) or installed application (BOOT) major version differs from the bootloader major version. Nothing was erased.</description></entry>
+      <entry value="18" name="FIRMWARE_UPDATE_RESULT_TOO_LARGE"><description>image_size is zero, not a multiple of 4, or larger than the application region. Nothing was erased.</description></entry>
+      <entry value="19" name="FIRMWARE_UPDATE_RESULT_NO_SESSION"><description>FIRMWARE_DATA without an accepted BEGIN.</description></entry>
+      <entry value="20" name="FIRMWARE_UPDATE_RESULT_BAD_CHUNK"><description>Chunk length is zero, not a multiple of 4, or runs past image_size.</description></entry>
+      <entry value="21" name="FIRMWARE_UPDATE_RESULT_CRC_MISMATCH"><description>CRC of the written image differs from image_crc32 or from the image_crc32 in its app_header; for BOOT, the installed application fails its CRC.</description></entry>
+      <entry value="22" name="FIRMWARE_UPDATE_RESULT_HEADER_MISMATCH"><description>The app_header in the written image is missing, or disagrees with BEGIN or the unit record.</description></entry>
+      <entry value="23" name="FIRMWARE_UPDATE_RESULT_FLASH_ERROR"><description>Flash erase, write or read-back failed.</description></entry>
+      <entry value="24" name="FIRMWARE_UPDATE_RESULT_NO_APP"><description>BOOT with no application, or one without an app_header (1.x app), e.g. after an erase.</description></entry>
+      <entry value="25" name="FIRMWARE_UPDATE_RESULT_UNSUPPORTED"><description>Unknown FIRMWARE_UPDATE_COMMAND value.</description></entry>
+    </enum>
   </enums>
   <messages>
     <message id="3333" name="Sensor_Status">
@@ -733,6 +774,58 @@
       <field type="uint64_t" name="timestamp" units="us">Timestamp (UNIX time or time since system boot).</field>
       <field type="uint16_t" name="module_id" enum="ONBOARD_MODULE">Module this status is for.</field>
       <field type="uint8_t" name="state" enum="MAV_STATE">Module state: each module reports only the states it has, each as the closest MAV_STATE (see the ONBOARD_MODULE entry; one-word labels in AvesCORE docs/SKYRON/ONBOARD_MODULE_STATUS.md). LED by state, same for every module: UNINIT grey, BOOT blinking green, STANDBY grey, ACTIVE green, CRITICAL yellow, EMERGENCY red.</field>
+    </message>
+    <message id="3371" name="FIRMWARE_IDENTITY">
+      <description>Identity of one MCU on the unified bootloader (2.x): hardware from its unit record, and the installed bootloader and application from their image headers. Sent by the bootloader and by the application, once after boot and in response to MAV_CMD_REQUEST_MESSAGE (param1 = 3371). A dual-MCU PCB sends one message per MCU, with the same board and board_serial and a different mcu. The vehicle (robot) type is not part of the firmware identity: the host decides it. Supersedes Firmware_Version, which remains for 1.x firmware only. Never reorder or remove existing fields.</description>
+      <field type="uint8_t" name="state" enum="FIRMWARE_STATE">Running the application, or why the MCU stays in the bootloader.</field>
+      <field type="uint32_t" name="board">PCB id, enum board_e in UnifiedBootloader/common/Inc/headers.h (firmware repo), e.g. 201 = AV-MBI. 0 when the unit record is blank or invalid.</field>
+      <field type="uint8_t" name="mcu" enum="FIRMWARE_MCU">MCU of this board; tells the two MCUs of a dual-MCU PCB apart. 0 when the unit record is blank or invalid.</field>
+      <field type="uint8_t" name="board_rev">PCB revision (the Vn number). 255 when the unit record is blank or invalid.</field>
+      <field type="uint8_t" name="board_variant">Board variant, 255 = not fixed.</field>
+      <field type="char[32]" name="board_serial">Serial of this board from its unit record, for development use (optional), not the robot serial (see ONBOARD_COMPUTER_INFO.robot_serial_number). Empty when the unit record is blank or invalid.</field>
+      <field type="uint8_t" name="bl_major">Bootloader major version.</field>
+      <field type="uint8_t" name="bl_minor">Bootloader minor version.</field>
+      <field type="uint8_t" name="bl_patch">Bootloader patch version.</field>
+      <field type="uint8_t" name="bl_flags">Bootloader build flags: bit0 debug build, bit1 built from a dirty git tree.</field>
+      <field type="uint64_t" name="bl_git_hash">First 16 hex digits of the bootloader's git commit hash.</field>
+      <field type="uint32_t" name="bl_build_time" units="s">Bootloader build time (UNIX time, UTC).</field>
+      <field type="uint32_t" name="bl_crc32">image_crc32 from the bl_header: CRC-32/MPEG-2 of the installed bootloader as stored in its header (not recomputed), identifying which build is installed.</field>
+      <field type="uint8_t" name="app_major">Application major version. All application fields are 0 when there is no valid app_header.</field>
+      <field type="uint8_t" name="app_minor">Application minor version.</field>
+      <field type="uint8_t" name="app_patch">Application patch version.</field>
+      <field type="uint8_t" name="app_flags">Application build flags: bit0 debug build, bit1 built from a dirty git tree.</field>
+      <field type="uint64_t" name="app_git_hash">First 16 hex digits of the application's git commit hash.</field>
+      <field type="uint32_t" name="app_build_time" units="s">Application build time (UNIX time, UTC).</field>
+      <field type="uint32_t" name="app_crc32">image_crc32 from the app_header: CRC-32/MPEG-2 of the installed application as stored in its header (not recomputed), for comparing against the image the host holds. An app that fails its CRC check at boot is reported as FIRMWARE_STATE_BL_APP_CRC_MISMATCH instead.</field>
+    </message>
+    <message id="3372" name="FIRMWARE_UPDATE_CMD">
+      <description>Control the firmware of one MCU on the unified bootloader (2.x): start an update, enter the bootloader, or leave it (FIRMWARE_UPDATE_COMMAND). Supersedes MAV_CMD_FIRMWARE_UPDATE, which remains for 1.x firmware only. For BEGIN the host fills the image fields from the app_header of the signed image (at +0x200); the bootloader checks them against the unit record and its own major version before erasing anything, then erases only the sectors covered by image_size. Every command is answered with FIRMWARE_UPDATE_STATUS. On a dual-MCU PCB the MCU that receives it relays it when mcu is not its own.</description>
+      <field type="uint8_t" name="target_system">System ID.</field>
+      <field type="uint8_t" name="target_component">Component ID.</field>
+      <field type="uint8_t" name="command" enum="FIRMWARE_UPDATE_COMMAND">Action.</field>
+      <field type="uint8_t" name="mcu" enum="FIRMWARE_MCU">MCU addressed; selects the MCU on a dual-MCU PCB.</field>
+      <field type="uint32_t" name="board">BEGIN: PCB id the image is built for (app_header.board, enum board_e in UnifiedBootloader/common/Inc/headers.h). Otherwise 0.</field>
+      <field type="uint8_t" name="board_rev">BEGIN: PCB revision the image is built for, 255 = any. Otherwise 0.</field>
+      <field type="uint8_t" name="board_variant">BEGIN: board variant the image is built for, 255 = any. Otherwise 0.</field>
+      <field type="uint8_t" name="app_major">BEGIN: major version of the image. Otherwise 0.</field>
+      <field type="uint32_t" name="image_size" units="bytes">BEGIN: image size from APP_BASE, a multiple of 4 (app_header.image_size). Otherwise 0.</field>
+      <field type="uint32_t" name="image_crc32">BEGIN: CRC-32 of the image (app_header.image_crc32). Otherwise 0.</field>
+    </message>
+    <message id="3373" name="FIRMWARE_DATA">
+      <description>One chunk of the image of a firmware update started with FIRMWARE_UPDATE_CMD BEGIN; supersedes Firmware_Hex, which remains for 1.x firmware only. Send chunks in order and wait for FIRMWARE_UPDATE_STATUS before the next one. Only a chunk at next_offset is written; any other chunk is answered with the expected next_offset, so a lost chunk or reply is repaired by sending the chunk at next_offset. The bootloader verifies the image and replies FIRMWARE_UPDATE_RESULT_COMPLETE after the chunk that reaches image_size.</description>
+      <field type="uint8_t" name="target_system">System ID.</field>
+      <field type="uint8_t" name="target_component">Component ID.</field>
+      <field type="uint8_t" name="mcu" enum="FIRMWARE_MCU">MCU the chunk is for; selects the MCU on a dual-MCU PCB.</field>
+      <field type="uint32_t" name="offset" units="bytes">Offset of the chunk from APP_BASE, a multiple of 4.</field>
+      <field type="uint8_t" name="length" units="bytes">Bytes used in data, a multiple of 4, 4..240.</field>
+      <field type="uint8_t[240]" name="data">Image bytes.</field>
+    </message>
+    <message id="3374" name="FIRMWARE_UPDATE_STATUS">
+      <description>Reply of the unified bootloader (2.x), or of an application, to FIRMWARE_UPDATE_CMD and FIRMWARE_DATA; supersedes MESSAGE_ACK for updates. Also sent about once per second while erasing, and with BOOTING when the 30 s timeout expires.</description>
+      <field type="uint8_t" name="mcu" enum="FIRMWARE_MCU">MCU reporting.</field>
+      <field type="uint8_t" name="result" enum="FIRMWARE_UPDATE_RESULT">Progress or error.</field>
+      <field type="uint32_t" name="next_offset" units="bytes">Offset from APP_BASE of the next chunk to send; equals image_size when complete.</field>
+      <field type="uint8_t" name="progress" units="%">Erase progress while ERASING, otherwise next_offset as a percentage of image_size.</field>
     </message>
   </messages>
 </mavlink>
