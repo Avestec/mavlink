@@ -275,7 +275,7 @@
         <param index="7" reserved="true" default="NaN"/>
       </entry>
       <entry value="40029" name="MAV_CMD_ONBOARD_WIFI_CONFIG" hasLocation="false" isDestination="false">
-        <description>Configure WiFi and hotspot state.</description>
+        <description>Configure WiFi and hotspot state. COMMAND_ACK only accepts or rejects the command; the resulting state is reported in ONBOARD_MODULE_STATUS (ONBOARD_MODULE_WIFI, ONBOARD_MODULE_HOTSPOT).</description>
         <param index="1" label="WIFI" enum="ACTION">WiFi enable/disable (ACTION_ENABLE/ACTION_DISABLE).</param>
         <param index="2" label="HOTSPOT" enum="ACTION">Hotspot enable/disable (ACTION_ENABLE/ACTION_DISABLE). Ignored when WiFi is disabled.</param>
         <param index="3" reserved="true" default="NaN"/>
@@ -477,6 +477,8 @@
       <entry value="16" name="ONBOARD_MODULE_NAVIGATION"><description>Path planning / navigation.</description></entry>
       <entry value="17" name="ONBOARD_MODULE_POWER_SAVING"><description>Power-saving mode (ACTIVE = full power, STANDBY = power saving engaged).</description></entry>
       <entry value="18" name="ONBOARD_MODULE_LIDAR_DRIVER"><description>LiDAR driver (e.g. ouster_ros). UNINIT=not started (no data yet), STANDBY=waiting (no data because the sensor is not running), ACTIVE=running, EMERGENCY=stopped while the sensor runs.</description></entry>
+      <entry value="19" name="ONBOARD_MODULE_WIFI"><description>Wi-Fi radio (set with MAV_CMD_ONBOARD_WIFI_CONFIG). STANDBY=off, ACTIVE=on, CRITICAL=state unknown (cannot be read).</description></entry>
+      <entry value="20" name="ONBOARD_MODULE_HOTSPOT"><description>Wi-Fi hotspot (set with MAV_CMD_ONBOARD_WIFI_CONFIG; can only be on while the Wi-Fi radio is on). STANDBY=off, BOOT=starting, ACTIVE=on, CRITICAL=state unknown (cannot be read), EMERGENCY=the last attempt to start it failed (cleared by the next MAV_CMD_ONBOARD_WIFI_CONFIG, or once it is on).</description></entry>
     </enum>
   </enums>
   <messages>
